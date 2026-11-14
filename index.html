@@ -7,25 +7,44 @@
 
 <title>For Omaima ❤️</title>
 
+
 <style>
+/* ==============================
+   GLOBAL RESET
+============================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    overflow: hidden;
     background: #000;
     font-family: Georgia, serif;
+
     transition: background 2s ease;
 }
+
+/* ==============================
+   BACKGROUND
+============================== */
 
 body.revealed {
     background: radial-gradient(
@@ -35,8 +54,6 @@ body.revealed {
         #000 100%
     );
 }
-
-/* INTRO BLACK SCREEN */
 
 .intro {
     position: fixed;
@@ -48,18 +65,23 @@ body.revealed {
 }
 
 @keyframes introFade {
-    to { opacity: 0; }
+    to {
+        opacity: 0;
+    }
 }
-
-/* BACKGROUND GLOW */
 
 .glow {
     position: absolute;
     width: 300px;
     height: 300px;
+    max-width: 80vw;
+
     background: #ff176b;
-    filter: blur(140px);
+    filter: blur(120px);
     opacity: 0;
+
+    pointer-events: none;
+
     transition: opacity 2s ease;
     animation: breathe 5s infinite alternate;
 }
@@ -69,21 +91,37 @@ body.revealed .glow {
 }
 
 @keyframes breathe {
-    from { transform: scale(.8); }
-    to { transform: scale(1.3); }
+    from {
+        transform: scale(.8);
+    }
+
+    to {
+        transform: scale(1.3);
+    }
 }
 
-/* MAIN CONTENT */
+/* ==============================
+   MAIN CONTAINER
+============================== */
 
 .container {
     position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 15px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 2;
+
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1.3s ease, transform 1.3s ease;
+
+    transition:
+        opacity 1.3s ease,
+        transform 1.3s ease;
 }
 
 .container.show {
@@ -91,19 +129,28 @@ body.revealed .glow {
     transform: translateY(0);
 }
 
-/* HEART SVG */
+/* ==============================
+   HEART
+============================== */
 
 .heart-wrapper {
     position: relative;
+
     width: 190px;
     height: 180px;
+    flex-shrink: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 0 15px rgba(255,30,110,.4));
+
+    filter: drop-shadow(
+        0 0 15px rgba(255,30,110,.4)
+    );
 }
 
 .heart-svg {
+    display: block;
     width: 100%;
     height: 100%;
     overflow: visible;
@@ -115,14 +162,17 @@ body.revealed .glow {
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
+
     filter: drop-shadow(0 0 8px #ff3980);
 }
 
 .heart-fill {
     fill: url(#heartGradient);
     opacity: 0;
+
     transform: scale(.7);
     transform-origin: center;
 }
@@ -136,7 +186,9 @@ body.revealed .glow {
 }
 
 @keyframes drawHeart {
-    to { stroke-dashoffset: 0; }
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 @keyframes fillHeart {
@@ -146,36 +198,60 @@ body.revealed .glow {
     }
 }
 
-/* HEARTBEAT */
+/* ==============================
+   HEARTBEAT
+============================== */
 
 .heart-wrapper.beat {
     animation: heartbeat 1.5s ease-in-out infinite;
 }
 
 @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.07); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.12); }
-    60% { transform: scale(1); }
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.07);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.12);
+    }
+
+    60% {
+        transform: scale(1);
+    }
 }
 
-/* NAME */
+/* ==============================
+   NAME
+============================== */
 
 .name {
     position: absolute;
     top: 49%;
     left: 50%;
+
     transform: translate(-50%, -50%);
-    color: white;
-    font-size: clamp(30px, 8vw, 43px);
+
+    color: #fff;
+    font-size: clamp(28px, 8vw, 43px);
     font-weight: bold;
+
     letter-spacing: 3px;
     white-space: nowrap;
+
     opacity: 0;
+
     text-shadow:
-        0 0 10px white,
+        0 0 10px #fff,
         0 0 25px #ff80b5;
+
     transition: opacity 1.3s ease;
 }
 
@@ -183,19 +259,27 @@ body.revealed .glow {
     opacity: 1;
 }
 
-/* SUBTITLE */
+/* ==============================
+   SUBTITLE
+============================== */
 
 .subtitle {
     margin-top: 30px;
+
     color: #ffd4e5;
+
     font-family: Arial, sans-serif;
     font-size: 13px;
     letter-spacing: 5px;
+
+    text-align: center;
+
     opacity: 0;
     transform: translateY(12px);
-    transition: all 1.3s ease;
+
     text-shadow: 0 0 15px #ff5b9b;
-    text-align: center;
+
+    transition: all 1.3s ease;
 }
 
 .subtitle.show {
@@ -203,18 +287,23 @@ body.revealed .glow {
     transform: translateY(0);
 }
 
-/* DECORATIVE LINE */
+/* ==============================
+   DECORATIVE LINE
+============================== */
 
 .line {
     width: 0;
     height: 1px;
+
     margin-top: 20px;
+
     background: linear-gradient(
         90deg,
         transparent,
         #ff75aa,
         transparent
     );
+
     transition: width 1.3s ease;
 }
 
@@ -222,15 +311,21 @@ body.revealed .glow {
     width: 130px;
 }
 
-/* FLOATING HEARTS */
+/* ==============================
+   FLOATING HEARTS
+============================== */
 
 .particle {
     position: absolute;
     bottom: -30px;
+
     color: #ff75aa;
+
     pointer-events: none;
-    animation: floatUp linear forwards;
+
     filter: drop-shadow(0 0 8px #ff3980);
+
+    animation: floatUp linear forwards;
 }
 
 @keyframes floatUp {
@@ -239,7 +334,9 @@ body.revealed .glow {
         opacity: 0;
     }
 
-    15% { opacity: .8; }
+    15% {
+        opacity: .8;
+    }
 
     100% {
         transform: translateY(-110vh) rotate(360deg) scale(1.4);
@@ -247,16 +344,25 @@ body.revealed .glow {
     }
 }
 
-/* SPARKLES */
+/* ==============================
+   SPARKLES
+============================== */
 
 .sparkle {
     position: absolute;
+
     width: 3px;
     height: 3px;
+
     border-radius: 50%;
-    background: white;
+    background: #fff;
+
     box-shadow: 0 0 12px 3px #ff80b5;
+
+    pointer-events: none;
+
     opacity: 0;
+
     animation: twinkle 3s infinite alternate;
 }
 
@@ -272,16 +378,27 @@ body.revealed .glow {
     }
 }
 
-/* FOOTER */
+/* ==============================
+   FOOTER
+============================== */
 
 .footer {
     position: absolute;
     bottom: 30px;
+
+    max-width: 100%;
+    padding: 0 10px;
+
     color: rgba(255,255,255,.4);
+
     font-family: Arial, sans-serif;
     font-size: 10px;
     letter-spacing: 4px;
+
+    text-align: center;
+
     opacity: 0;
+
     transition: opacity 1.3s ease;
 }
 
@@ -289,30 +406,81 @@ body.revealed .glow {
     opacity: 1;
 }
 
-/* RESPONSIVE */
+/* ==============================
+   MOBILE RESPONSIVE
+============================== */
 
-@media(max-width: 480px) {
+@media (max-width: 480px) {
+
     .heart-wrapper {
-        width: 165px;
-        height: 155px;
+        width: 145px;
+        height: 140px;
+    }
+
+    .name {
+        font-size: 32px;
+        letter-spacing: 2px;
     }
 
     .subtitle {
-        font-size: 11px;
-        letter-spacing: 4px;
+        font-size: 10px;
+        letter-spacing: 3px;
+        margin-top: 25px;
+    }
+
+    .footer {
+        bottom: 18px;
+        font-size: 9px;
+        letter-spacing: 3px;
+    }
+
+    .glow {
+        width: 220px;
+        height: 220px;
+        filter: blur(100px);
     }
 }
 
-/* REDUCED MOTION */
+/* ==============================
+   SMALL HEIGHT SCREENS
+============================== */
 
-@media(prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+@media (max-height: 600px) {
+
+    .heart-wrapper {
+        width: 125px;
+        height: 120px;
+    }
+
+    .subtitle {
+        margin-top: 15px;
+    }
+
+    .line {
+        margin-top: 12px;
+    }
+
+    .footer {
+        bottom: 10px;
+    }
+}
+
+/* ==============================
+   REDUCED MOTION
+============================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
     }
 }
 </style>
+
 </head>
 
 <body>
