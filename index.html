@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 <title>For Omaima ❤️</title>
 
 <style>
@@ -14,137 +14,222 @@
 }
 
 body {
+    width: 100%;
     height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at center, #35152f, #160b25 55%, #090817);
-    font-family: 'Georgia', serif;
+    background: #000;
+    font-family: Georgia, serif;
+    transition: background 3s ease;
 }
 
-/* Background glow */
+body.revealed {
+    background: radial-gradient(
+        circle at center,
+        #321020 0%,
+        #160813 48%,
+        #000 100%
+    );
+}
+
+/* INTRO BLACK SCREEN */
+
+.intro {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 100;
+    pointer-events: none;
+    animation: introFade 3s ease 1.5s forwards;
+}
+
+@keyframes introFade {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* BACKGROUND */
+
 .glow {
     position: absolute;
-    width: 350px;
-    height: 350px;
-    background: #ff287b;
-    filter: blur(150px);
-    opacity: 0.25;
-    animation: glow 4s infinite alternate;
+    width: 300px;
+    height: 300px;
+    background: #ff176b;
+    filter: blur(140px);
+    opacity: 0;
+    transition: opacity 3s ease;
+    animation: breathe 5s infinite alternate;
 }
 
-@keyframes glow {
-    from { transform: scale(.8); opacity: .15; }
-    to { transform: scale(1.3); opacity: .35; }
+body.revealed .glow {
+    opacity: .22;
 }
 
-/* Main container */
+@keyframes breathe {
+    from { transform: scale(.8); }
+    to { transform: scale(1.3); }
+}
+
+/* MAIN CONTENT */
+
 .container {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 2;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 2s ease, transform 2s ease;
 }
 
-/* Heart */
-.heart {
+.container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* HEART SVG */
+
+.heart-wrapper {
     position: relative;
-    width: 130px;
-    height: 130px;
-    background: linear-gradient(135deg, #ff8eb7, #ff176b 55%, #c90053);
-    transform: rotate(-45deg);
-    animation: heartbeat 1.15s infinite;
-    box-shadow:
-        0 0 25px #ff267b,
-        0 0 60px #ff267b,
-        0 0 100px rgba(255, 30, 110, .4);
-    border-radius: 12px;
+    width: 190px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 15px rgba(255,30,110,.4));
 }
 
-.heart::before,
-.heart::after {
-    content: "";
-    position: absolute;
-    width: 130px;
-    height: 130px;
-    background: inherit;
-    border-radius: 50%;
+.heart-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
-.heart::before {
-    top: -65px;
-    left: 0;
+.heart-outline {
+    fill: none;
+    stroke: #ff72a8;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 8px #ff3980);
 }
 
-.heart::after {
-    left: 65px;
-    top: 0;
+.heart-fill {
+    fill: url(#heartGradient);
+    opacity: 0;
+    transform: scale(.7);
+    transform-origin: center;
+}
+
+.heart-wrapper.draw .heart-outline {
+    animation: drawHeart 3s ease forwards;
+}
+
+.heart-wrapper.fill .heart-fill {
+    animation: fillHeart 2s ease forwards;
+}
+
+@keyframes drawHeart {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes fillHeart {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* HEART BEATING */
+
+.heart-wrapper.beat {
+    animation: heartbeat 1.5s ease-in-out infinite;
 }
 
 @keyframes heartbeat {
-    0%, 100% {
-        transform: rotate(-45deg) scale(1);
-    }
-    15% {
-        transform: rotate(-45deg) scale(1.13);
-    }
-    30% {
-        transform: rotate(-45deg) scale(1);
-    }
-    45% {
-        transform: rotate(-45deg) scale(1.18);
-    }
-    60% {
-        transform: rotate(-45deg) scale(1);
-    }
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.07); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.12); }
+    60% { transform: scale(1); }
 }
 
-/* Name */
+/* NAME */
+
 .name {
     position: absolute;
-    top: 50%;
+    top: 49%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 5;
     color: white;
     font-size: clamp(30px, 8vw, 43px);
     font-weight: bold;
+    letter-spacing: 3px;
     white-space: nowrap;
-    letter-spacing: 2px;
-    text-shadow: 0 0 12px #fff, 0 0 25px #ffb2d0;
-    animation: nameGlow 2s infinite alternate;
-}
-
-@keyframes nameGlow {
-    from { text-shadow: 0 0 10px white; }
-    to { text-shadow: 0 0 20px white, 0 0 35px #ffb2d0; }
-}
-
-/* Subtitle */
-.subtitle {
-    margin-top: 110px;
-    color: #ffd4e5;
-    font-size: 18px;
-    letter-spacing: 4px;
     opacity: 0;
-    animation: appear 2s ease 1s forwards;
+    text-shadow:
+        0 0 10px white,
+        0 0 25px #ff80b5;
+    transition: opacity 2s ease;
+}
+
+.name.show {
+    opacity: 1;
+}
+
+/* SUBTITLE */
+
+.subtitle {
+    margin-top: 30px;
+    color: #ffd4e5;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 2s ease;
     text-shadow: 0 0 15px #ff5b9b;
+    text-align: center;
 }
 
-@keyframes appear {
-    to { opacity: 1; }
+.subtitle.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* Floating hearts */
+/* DECORATIVE LINE */
+
+.line {
+    width: 0;
+    height: 1px;
+    margin-top: 20px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #ff75aa,
+        transparent
+    );
+    transition: width 2s ease;
+}
+
+.line.show {
+    width: 130px;
+}
+
+/* FLOATING PARTICLES */
+
 .particle {
     position: absolute;
     bottom: -30px;
     color: #ff75aa;
     pointer-events: none;
     animation: floatUp linear forwards;
-    filter: drop-shadow(0 0 7px #ff3980);
+    filter: drop-shadow(0 0 8px #ff3980);
 }
 
 @keyframes floatUp {
@@ -152,58 +237,73 @@ body {
         transform: translateY(0) rotate(0deg) scale(.5);
         opacity: 0;
     }
-    15% { opacity: 1; }
+    15% { opacity: .8; }
     100% {
-        transform: translateY(-110vh) rotate(360deg) scale(1.5);
+        transform: translateY(-110vh) rotate(360deg) scale(1.4);
         opacity: 0;
     }
 }
 
-/* Sparkles */
+/* SPARKLES */
+
 .sparkle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: white;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
+    background: white;
     box-shadow: 0 0 12px 3px #ff80b5;
-    animation: twinkle 2s infinite alternate;
+    opacity: 0;
+    animation: twinkle 3s infinite alternate;
 }
 
 @keyframes twinkle {
-    from { opacity: .2; transform: scale(.5); }
-    to { opacity: 1; transform: scale(1.8); }
+    0% {
+        opacity: 0;
+        transform: scale(.3);
+    }
+    100% {
+        opacity: .9;
+        transform: scale(1.8);
+    }
 }
 
-/* Footer */
+/* FOOTER */
+
 .footer {
     position: absolute;
     bottom: 30px;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.4);
     font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 3px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
 
-/* Responsive */
+.footer.show {
+    opacity: 1;
+}
+
+/* MOBILE */
+
 @media(max-width: 480px) {
-    .heart {
-        width: 105px;
-        height: 105px;
+    .heart-wrapper {
+        width: 165px;
+        height: 155px;
     }
-
-    .heart::before,
-    .heart::after {
-        width: 105px;
-        height: 105px;
-    }
-
-    .heart::before { top: -52px; }
-    .heart::after { left: 52px; }
 
     .subtitle {
-        font-size: 14px;
-        letter-spacing: 3px;
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
@@ -211,52 +311,174 @@ body {
 
 <body>
 
+<div class="intro"></div>
 <div class="glow"></div>
 
-<div class="container">
-    <div class="heart"></div>
-    <div class="name">Omaima</div>
-    <div class="subtitle">YOU ARE SPECIAL ❤️</div>
+<div class="container" id="container">
+
+    <div class="heart-wrapper" id="heart">
+
+        <svg class="heart-svg" viewBox="0 0 200 190">
+            <defs>
+                <linearGradient id="heartGradient"
+                    x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff9fc5"/>
+                    <stop offset="50%" stop-color="#ff287b"/>
+                    <stop offset="100%" stop-color="#b90050"/>
+                </linearGradient>
+            </defs>
+
+            <path class="heart-fill"
+                d="M100 175
+                C80 155 15 105 15 58
+                C15 5 82 -5 100 43
+                C118 -5 185 5 185 58
+                C185 105 120 155 100 175Z"/>
+
+            <path class="heart-outline"
+                d="M100 175
+                C80 155 15 105 15 58
+                C15 5 82 -5 100 43
+                C118 -5 185 5 185 58
+                C185 105 120 155 100 175Z"/>
+        </svg>
+
+        <div class="name" id="name">Omaima</div>
+
+    </div>
+
+    <div class="subtitle" id="subtitle">
+        YOU ARE SPECIAL ❤️
+    </div>
+
+    <div class="line" id="line"></div>
+
 </div>
 
-<div class="footer">MADE WITH LOVE</div>
+<div class="footer" id="footer">
+    MADE WITH LOVE
+</div>
 
 <script>
 
-// Create floating hearts
+/* CINEMATIC INTRO */
+
+const delay = ms =>
+    new Promise(resolve => setTimeout(resolve, ms));
+
+async function startAnimation() {
+
+    await delay(1800);
+
+    document.body.classList.add("revealed");
+
+    await delay(900);
+
+    createSparkles();
+
+    const container = document.getElementById("container");
+    const heart = document.getElementById("heart");
+
+    container.classList.add("show");
+
+    await delay(1200);
+
+    heart.classList.add("draw");
+
+    await delay(3000);
+
+    heart.classList.add("fill");
+
+    await delay(1800);
+
+    document.getElementById("name").classList.add("show");
+
+    await delay(1300);
+
+    document.getElementById("subtitle").classList.add("show");
+
+    await delay(700);
+
+    document.getElementById("line").classList.add("show");
+
+    await delay(1000);
+
+    document.getElementById("footer").classList.add("show");
+
+    await delay(1500);
+
+    heart.classList.add("beat");
+
+    startParticles();
+}
+
+/* FLOATING HEARTS */
+
 function createHeart() {
+
     const heart = document.createElement("div");
+
     heart.className = "particle";
 
     const symbols = ["♥", "♡", "❤", "💕"];
-    heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.textContent =
+        symbols[Math.floor(Math.random() * symbols.length)];
 
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (12 + Math.random() * 22) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 6) + "s";
+
+    heart.style.fontSize =
+        (12 + Math.random() * 22) + "px";
+
+    const duration = 6 + Math.random() * 6;
+
+    heart.style.animationDuration = duration + "s";
 
     document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 11000);
+    setTimeout(() => heart.remove(), duration * 1000);
 }
 
-setInterval(createHeart, 350);
+function startParticles() {
 
-// Create background sparkles
-function createSparkle() {
-    const sparkle = document.createElement("div");
-    sparkle.className = "sparkle";
+    createHeart();
 
-    sparkle.style.left = Math.random() * 100 + "vw";
-    sparkle.style.top = Math.random() * 100 + "vh";
-    sparkle.style.animationDelay = Math.random() * 2 + "s";
+    setInterval(() => {
 
-    document.body.appendChild(sparkle);
+        if (document.hidden) return;
+
+        createHeart();
+
+    }, 500);
 }
 
-for (let i = 0; i < 45; i++) {
-    createSparkle();
+/* BACKGROUND SPARKLES */
+
+function createSparkles() {
+
+    for (let i = 0; i < 40; i++) {
+
+        const sparkle = document.createElement("div");
+
+        sparkle.className = "sparkle";
+
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+
+        sparkle.style.animationDelay =
+            Math.random() * 3 + "s";
+
+        sparkle.style.animationDuration =
+            (2 + Math.random() * 3) + "s";
+
+        document.body.appendChild(sparkle);
+
+    }
 }
+
+/* START */
+
+window.addEventListener("load", startAnimation);
 
 </script>
 
